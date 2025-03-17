@@ -1,0 +1,14 @@
+torchvision
+fastapi
+uvicorn
+torchaudio  
+funasr==1.2.0  
+modelscope  
+huggingface
+huggingface_hub
+pydub
+onnx
+onnxconverter-common
+ffmpeg-python
+
+

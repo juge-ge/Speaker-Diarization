@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Processing</title>
+</head>
+<body>
+    <h1>Upload Your Audio Files</h1>
+    <form id="uploadForm" action="/process-audio/" method="post" enctype="multipart/form-data">
+        <label for="files">选择文件:</label>
+        <input type="file" id="files" name="files" multiple>
+        <button type="submit">Upload and Process</button>
+    </form>
+    <div id="loading" style="display: none;">正在运行中，请等待...</div>
+
+    <script>
+    const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loading');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        loading.style.display = 'block';
+
+        const formData = new FormData(form);
+        const response = await fetch('/process-audio/', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        loading.style.display = 'none';
+
+        if (data.download_links) {
+            data.download_links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link;
+                a.download = link.split('/').pop();
+                a.click();
+            });
+        } else {
+            alert('处理文件时出错！');
+        }
+    });
+</script>
+
+</body>
+</html>
